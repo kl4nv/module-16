@@ -24,7 +24,9 @@ async def add_users(
         username: Annotated[str, Path(..., min_length=3, max_length=15)],
         age: Annotated[int, Path(..., ge=18, le=120)]
 ):
-    new_user = User(id=len(users) + 1, username=username, age=age)
+    new_user = User(id=max([user.id for user in users, default=0]) + 1, 
+                    username=username, 
+                    age=age)
     users.append(new_user)
     return new_user
 
